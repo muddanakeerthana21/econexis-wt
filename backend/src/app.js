@@ -1,7 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+
+import connectDB from './config/db.js';
 import { setupSwagger } from './docs/swagger.js';
+
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 // Route imports
@@ -15,7 +18,6 @@ import ewasteRoutes from './routes/ewasteRoutes.js';
 
 const app = express();
 
-// Enable CORS with support for development and deployed frontend origins
 app.use(
   cors({
     origin: [
@@ -31,18 +33,62 @@ app.use(
   })
 );
 
-// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Setup Swagger UI Documentation
+/*
+ * MongoDB connection middleware
+ *
+ * Vercel runs the Express app as a serverless function.
+ * Therefore, make sure MongoDB is connected before
+ * processing any /api/... request.
+ */
+app.use(async (req, res, next) => {
+  const isApiRequest =
+    req.path === '/api' || req.path.startsWith('/api/');
+
+  // Swagger and root page do not require MongoDB.
+  if (!isApiRequest) {
+    return next();
+  }
+
+  try {
+    const connection = await connectDB();
+
+    if (!connection || mongoose.connection.readyState !== 1) {
+      console.error('[MongoDB Middleware] Database is not connected');
+
+      return res.status(503).json({
+        success: false,
+        message: 'MongoDB connection unavailable',
+        database: 'MongoDB',
+        dbStatus: 'Disconnected',
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.error(
+      `[MongoDB Middleware] Connection error: ${error.message}`
+    );
+
+    return res.status(503).json({
+      success: false,
+      message: 'MongoDB connection unavailable',
+      database: 'MongoDB',
+      dbStatus: 'Disconnected',
+    });
+  }
+});
+
 setupSwagger(app);
 
-/**
- * Health Check Endpoint
+/*
+ * Health Check
  */
 app.get('/api/health', (req, res) => {
   const isConnected = mongoose.connection.readyState === 1;
+
   return res.status(200).json({
     success: true,
     message: 'Econexis backend is running',
@@ -52,7 +98,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount Resource Routes
+/*
+ * API Routes
+ */
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/pickups', pickupRoutes);
@@ -61,15 +109,20 @@ app.use('/api/deliveries', deliveryRoutes);
 app.use('/api/rewards', rewardRoutes);
 app.use('/api/ewaste', ewasteRoutes);
 
-// Root redirect / greeting
+/*
+ * Root endpoint
+ */
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'Welcome to EcoNexis API. Documentation available at /api-docs',
+    message:
+      'Welcome to EcoNexis API. Documentation available at /api-docs',
   });
 });
 
-// Error handling middleware
+/*
+ * Error handling
+ */
 app.use(notFound);
 app.use(errorHandler);
 

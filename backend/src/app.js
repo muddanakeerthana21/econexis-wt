@@ -20,15 +20,38 @@ const app = express();
 
 app.use(
   cors({
-   origin: [
-  'http://localhost:5173',
-  'http://127.0.0.1:5173',
-  'http://localhost:3000',
-  'http://127.0.0.1:3000',
-  'https://econexis-wt-kqpq.vercel.app',
-  'https://econexis-wt-asp8.vercel.app',
-  'https://econexis-wt-asp8-lqno3d7zi-no-aff7.vercel.app',
-],
+    origin: (origin, callback) => {
+      // Allow requests without an Origin header
+      // such as server-to-server requests.
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const allowedOrigins = [
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'http://localhost:3000',
+        'http://127.0.0.1:3000',
+        'https://econexis-wt-kqpq.vercel.app',
+        'https://econexis-wt-asp8.vercel.app',
+      ];
+
+      // Allow Vercel preview deployments for this frontend project.
+      const isEconexisVercelPreview =
+        /^https:\/\/econexis-wt-asp8-[a-z0-9-]+-no-aff7\.vercel\.app$/.test(
+          origin
+        );
+
+      if (
+        allowedOrigins.includes(origin) ||
+        isEconexisVercelPreview
+      ) {
+        return callback(null, true);
+      }
+
+      console.log(`[CORS] Blocked origin: ${origin}`);
+      return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],

@@ -27,6 +27,7 @@ app.use(
   'http://127.0.0.1:3000',
   'https://econexis-wt-kqpq.vercel.app',
   'https://econexis-wt-asp8.vercel.app',
+  'https://econexis-wt-asp8-lqno3d7zi-no-aff7.vercel.app',
 ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

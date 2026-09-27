@@ -2,22 +2,17 @@ import mongoose from 'mongoose';
 
 let cachedConnection = null;
 
-/**
- * Connect to MongoDB using Mongoose.
- * Reuses the existing connection when running on Vercel/serverless.
- */
 const connectDB = async () => {
-  try {
-    if (!process.env.MONGO_URI) {
-      throw new Error('MONGO_URI environment variable is not configured');
-    }
+  if (!process.env.MONGO_URI) {
+    console.error('[MongoDB] MONGO_URI is missing');
+    return null;
+  }
 
-    // Reuse an existing connection
+  try {
     if (cachedConnection && mongoose.connection.readyState === 1) {
       return cachedConnection;
     }
 
-    // Reuse an existing mongoose connection if available
     if (mongoose.connection.readyState === 1) {
       cachedConnection = mongoose.connection;
       return cachedConnection;
@@ -30,13 +25,16 @@ const connectDB = async () => {
     cachedConnection = conn;
 
     console.log(
-      `[MongoDB] Database connected successfully: ${conn.connection.host}/${conn.connection.name}`
+      `[MongoDB] Connected: ${conn.connection.host}/${conn.connection.name}`
     );
 
     return conn;
   } catch (error) {
-    console.error(`[MongoDB] Database connection error: ${error.message}`);
-    throw error;
+    console.error('[MongoDB] CONNECTION FAILED');
+    console.error(error);
+
+    // Do not crash the Vercel function.
+    return null;
   }
 };
 

@@ -1,0 +1,94 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Keerthana",
+      "email": "keerthana@example.com",
+      "phone": "9876543210",
+      "address": "Hyderabad",
+      "role": "user",
+      "ecoPoints": 500,
+      "createdAt": "2026-03-01T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "name": "Admin Officer",
+      "email": "admin@econexis.com",
+      "phone": "9876543211",
+      "address": "Admin HQ, EcoNexis",
+      "role": "admin",
+      "ecoPoints": 1200,
+      "createdAt": "2026-01-15T08:30:00.000Z"
+    }
+  ],
+  "pickups": [
+    {
+      "id": "1",
+      "userId": "1",
+      "userName": "Keerthana",
+      "item": "Dell Inspiron 15 Laptop",
+      "category": "Laptops & Computers",
+      "quantity": 1,
+      "pickupAddress": "Hyderabad, Jubilee Hills Rd 36",
+      "pickupDate": "2026-09-20",
+      "status": "Pending",
+      "createdAt": "2026-09-15T12:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "userName": "Keerthana",
+      "item": "Samsung Galaxy S10",
+      "category": "Smartphones & Mobile",
+      "quantity": 2,
+      "pickupAddress": "Hyderabad, HITEC City",
+      "pickupDate": "2026-09-22",
+      "status": "In Progress",
+      "createdAt": "2026-09-14T09:30:00.000Z"
+    }
+  ],
+  "donations": [
+    {
+      "id": "1",
+      "userId": "1",
+      "userName": "Keerthana",
+      "item": "Lenovo ThinkPad Yoga",
+      "category": "Laptops",
+      "quantity": 1,
+      "condition": "Good",
+      "status": "Received",
+      "createdAt": "2026-09-10T14:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "userName": "Keerthana",
+      "item": "Apple iPad 8th Gen",
+      "category": "Tablets",
+      "quantity": 1,
+      "condition": "Excellent",
+      "status": "Allocated",
+      "createdAt": "2026-09-12T11:20:00.000Z"
+    }
+  ],
+  "ewaste": [
+    {
+      "id": "1",
+      "itemName": "Old CRT Monitor 17-inch",
+      "category": "Displays & TVs",
+      "quantity": 3,
+      "condition": "Scrap",
+      "recyclingStatus": "Recycled",
+      "createdAt": "2026-09-01T09:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "itemName": "Lithium-Ion Battery Pack",
+      "category": "Batteries",
+      "quantity": 10,
+      "condition": "Hazardous",
+      "recyclingStatus": "In Progress",
+      "createdAt": "2026-09-08T15:45:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+/* =======================================================
+   EcoNexis - Responsive Styles & Mobile Drawer
+   ======================================================= */
+
+/* Tablet (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-container {
+    padding: 20px;
+  }
+}
+
+/* Mobile Devices (max-width: 768px) */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: none;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 35;
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+  }
+
+  .menu-toggle-btn {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .topbar-search {
+    display: none; /* Hide wide search box on small mobile, search on demand */
+  }
+
+  .page-container {
+    padding: 16px;
+  }
+
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .hero-banner-title {
+    font-size: 1.45rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .page-title {
+    font-size: 1.35rem;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .auth-card {
+    padding: 24px 20px;
+  }
+
+  .splash-brand {
+    font-size: 2.2rem;
+  }
+
+  .splash-tagline {
+    font-size: 1.05rem;
+  }
+
+  .detection-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small screens (max-width: 480px) */
+@media (max-width: 480px) {
+  .scanner-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .scanner-actions .btn {
+    width: 100%;
+  }
+
+  .splash-features {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .auth-wrapper {
+    padding: 12px;
+  }
+}
